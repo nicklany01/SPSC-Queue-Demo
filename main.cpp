@@ -1,4 +1,4 @@
-#include "SpscQueue.hpp"
+#include "spsc_queue.hpp"
 #include <cassert>
 #include <cstdint>
 #include <iostream>

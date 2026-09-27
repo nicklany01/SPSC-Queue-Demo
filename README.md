@@ -30,3 +30,38 @@ To build the project and run the provided test harness:
 make
 ./main
 ```
+
+## Benchmarks
+
+Run the benchmark suite and `perf` profile via:
+
+```bash
+make run-benchmark
+```
+
+### Results
+
+Comparing the lock-free `SpscQueue` vs a standard `std::mutex` approach using two threads pinned to separate physical cores:
+
+```text
+Benchmark                                 Time             CPU   Iterations UserCounters...
+-------------------------------------------------------------------------------------------
+BM_SpscQueue/real_time/threads:2       12.3 ns         12.3 ns     54106360 items_per_second=40.5059M/s
+BM_MutexQueue/real_time/threads:2       51.9 ns         51.8 ns     13463206 items_per_second=9.63454M/s
+```
+
+Perf stat results for `SpscQueue`:
+
+```text
+        63,361,224      L1-dcache-load-misses                                                 
+        53,301,150      cache-misses                                                          
+                43      context-switches 
+```
+
+Perf stat results for `MutexQueue`:
+
+```text
+        65,036,951      L1-dcache-load-misses                                                 
+         8,639,573      cache-misses                                                          
+               130      context-switches 
+```
